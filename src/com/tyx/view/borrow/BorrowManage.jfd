@@ -1,0 +1,105 @@
+JFDML JFormDesigner: "6.0.6.2.195" Java: "11.0.5" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq t {par t {seq {space :::p, comp panel1:::::x}, seq l {space :p:53:p, comp label1:::p::p, space :::p, comp textField1:::p:191:p, space s:::p, comp button1:::p::p, space :0:0:x}, seq l {space :::p, comp scrollPane1::::486:x}}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, par b {comp label1::b:p::p, comp textField1::b:p::p, comp button1::b:p::p}, space s:::p, comp scrollPane1:::p:146:p, space :p:28:p, comp panel1:::::x, space :::p}}"
+		} ) {
+			name: "this"
+			"title": "借阅管理"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label1"
+				"text": "借阅人编号："
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "textField1"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "button1"
+				"text": "查询"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/17、动态查询条件模板.png" )
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane1"
+				add( new FormComponent( "javax.swing.JTable" ) {
+					name: "table1"
+					"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector {
+						add( new java.util.Vector {
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+						} )
+						add( new java.util.Vector {
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+						} )
+					}, new java.util.Vector {
+						add( "借书人编号" )
+						add( "书籍名称" )
+						add( "借书时间" )
+						add( "归还时间" )
+					}, new java.util.Vector {
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+					}, new java.util.Vector {
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+					}, new java.util.Vector {
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+					} )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, par l:::p {seq {comp label2:::p::p, space :::p, comp textField2:::p:68:p, space :::p, comp label3:::p::p}, comp button2:::::x}, space :::p, par l {seq {comp textField3:::p:95:p, space :::p, comp label4:::p::p, space :::p, comp textField4::::67:x}, comp button3::t::234:x}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par b {comp label2::b:p::p, comp textField2::b:p::p, comp label3::b:p::p, comp textField3::b:p::p, comp label4::b:p::p, comp textField4::b:p::p}, space ::23:x, par b {comp button3::b:p::p, comp button2::b:p::p}, space :::p}}"
+			} ) {
+				name: "panel1"
+				"border": new javax.swing.border.TitledBorder( "借书/还书操作" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label2"
+					"text": "借阅人编号："
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "textField2"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label3"
+					"text": "借阅人姓名："
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "textField3"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label4"
+					"text": "图书编号："
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "textField4"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "button2"
+					"text": "借阅"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "button3"
+					"text": "归还"
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 400, 306 )
+		} )
+	}
+}

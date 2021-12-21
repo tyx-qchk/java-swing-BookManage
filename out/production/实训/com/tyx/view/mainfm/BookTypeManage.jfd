@@ -1,0 +1,104 @@
+JFDML JFormDesigner: "6.0.6.2.195" Java: "11.0.5" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :p:49:p, par l {comp scrollPane1:::p:400:p, seq {comp label1:::p::p, space :::p, comp textField1:::p:176:p, space s:::p, comp button1:::p::p}, comp panel1::l:::x}, space ::49:x}}"
+			"$verticalGroup": "par l {seq l {space :p:18:p, par b {comp label1::b:p::p, comp textField1::b:p::p, comp button1::b:p::p}, space :p:36:p, comp scrollPane1:::p:132:p, space :p:31:p, comp panel1:::p::p, space :::x}}"
+		} ) {
+			name: "this"
+			"title": "图书类别管理"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label1"
+				"text": "图书类别名："
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "textField1"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "button1"
+				"text": "查询"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/17、动态查询条件模板.png" )
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane1"
+				add( new FormComponent( "javax.swing.JTable" ) {
+					name: "table1"
+					"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector {
+						add( new java.util.Vector {
+							add( null )
+							add( null )
+							add( null )
+						} )
+						add( new java.util.Vector {
+							add( null )
+							add( null )
+							add( null )
+						} )
+					}, new java.util.Vector {
+						add( "编号" )
+						add( "图书类别" )
+						add( "描述" )
+					}, new java.util.Vector {
+						add( null )
+						add( null )
+						add( null )
+					}, new java.util.Vector {
+						add( null )
+						add( null )
+						add( null )
+					}, new java.util.Vector {
+						add( null )
+						add( null )
+						add( null )
+					} )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, par l {seq {comp label2:::p::p, space :::p, comp textField2:::p:101:p, space :p:28:p, comp label3:::p::p, space :::p, comp textField3:::::x}, seq {comp label4:::p::p, space :::p, comp scrollPane2:::::x}, seq t {space :0:0:x, comp button2:::p::p, space :p:100:p, comp button3:::p::p}}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par b {comp label2::b:p::p, comp textField2::b:p::p, comp label3::b:p::p, comp textField3::b:p::p}, space u:::p, par b {comp label4::b:p::p, comp scrollPane2::b:p:69:p}, space :::p, par b {comp button2::b:p::p, comp button3::b:p::p}, space :::x}}"
+			} ) {
+				name: "panel1"
+				"border": new javax.swing.border.TitledBorder( "表单操作" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label2"
+					"text": "编号："
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "textField2"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label3"
+					"text": "图书类别："
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "textField3"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label4"
+					"text": "描述；"
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "scrollPane2"
+					add( new FormComponent( "javax.swing.JTextArea" ) {
+						name: "textArea1"
+					} )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "button2"
+					"text": "修改"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/13edit.png" )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "button3"
+					"text": "删除"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/删除.png" )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 400, 375 )
+		} )
+	}
+}

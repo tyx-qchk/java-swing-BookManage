@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/com/tyx/model/Book.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/tyx/model/BookType.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/tyx/model/User.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/tyx/util/DbUtil.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/tyx/util/StringUtil.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/dao/BookDao.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/dao/BookTypeDao.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/dao/UserDao.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/model/Book.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/model/BookType.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/model/User.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/util/DbUtil.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/util/StringUtil.java" charset="UTF-8" />
+  </component>
+</project>
