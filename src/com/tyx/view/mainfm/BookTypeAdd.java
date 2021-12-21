@@ -42,7 +42,15 @@ public class BookTypeAdd extends JInternalFrame {
             BookType bookType = new BookType();
             bookType.setBookTypeName(bookTypeName);
             bookType.setBookTypeDesc(bokTypeDesc);
-            bookTypeDao.add(con,bookType);
+            int index = bookTypeDao.add(con,bookType);
+            if (index!=0){
+                JOptionPane.showMessageDialog(null, "添加成功！");
+//                添加成功后清空输入框
+                textField1.setText("");
+                textArea1.setText("");
+            } else {
+                JOptionPane.showMessageDialog(null, "添加失败！");
+            }
             con.close();
         } catch (Exception ex) {
             ex.printStackTrace();
