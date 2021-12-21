@@ -4,22 +4,60 @@
 
 package com.tyx.view.mainfm;
 
+import com.tyx.dao.BookTypeDao;
+import com.tyx.model.BookType;
+import com.tyx.util.DbUtil;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.util.Vector;
 
 /**
  * @author Brainrain
  */
 public class BookTypeManage extends JInternalFrame {
+    DbUtil dbUtil = new DbUtil();
+    BookTypeDao bookTypeDao = new BookTypeDao();
     public BookTypeManage() {
 
         setClosable(true);
         setIconifiable(true);
         initComponents();
+        fillTable(new BookType());
     }
-
+    /**
+     * 初始化表格数据
+     * @param bookType
+     */
+    private void fillTable(BookType bookType){
+        DefaultTableModel dtm=(DefaultTableModel) table1.getModel();
+        dtm.setRowCount(0); // 设置成0行
+        Connection con=null;
+        try{
+            con=dbUtil.getCon();
+            ResultSet rs = bookTypeDao.list(con,bookType);
+            while(rs.next()){
+                Vector v=new Vector();
+                v.add(rs.getString("id"));
+                v.add(rs.getString("bookTypeName"));
+                v.add(rs.getString("bookTypeDesc"));
+                dtm.addRow(v);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                dbUtil.closeCon(con);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         label1 = new JLabel();
