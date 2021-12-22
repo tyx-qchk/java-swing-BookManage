@@ -90,6 +90,7 @@ public class BookAdd extends JInternalFrame {
 //    重置输入框
     private void button2ActionPerformed(ActionEvent e) {
         // TODO add your code here
+        this.resetValue();
     }
 
 
@@ -291,7 +292,7 @@ public class BookAdd extends JInternalFrame {
         this.textField1.setText(""); //图书名称
         this.textField2.setText(""); //图书作者
         this.textField3.setText(""); //图书价格
-//        this.manJrb.setSelected(true); //作者性别
+        this.radioButton1.setSelected(true); //作者性别
         this.textArea1.setText(""); //图书简介
         if(this.comboBox1.getItemCount()>0){ //图书类别
             this.comboBox1.setSelectedIndex(0);
