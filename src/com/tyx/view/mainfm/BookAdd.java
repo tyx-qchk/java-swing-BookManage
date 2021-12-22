@@ -4,18 +4,94 @@
 
 package com.tyx.view.mainfm;
 
+import com.tyx.dao.BookDao;
+import com.tyx.dao.BookTypeDao;
+import com.tyx.model.Book;
+import com.tyx.model.BookType;
+import com.tyx.util.DbUtil;
+import com.tyx.util.StringUtil;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.sql.Connection;
+import java.sql.ResultSet;
 
 /**
  * @author Brainrain
  */
 public class BookAdd extends JInternalFrame {
+    private DbUtil dbUtil = new DbUtil();
+    private BookTypeDao bookTypeDao = new BookTypeDao();
+    private BookDao bookDao = new BookDao();
     public BookAdd() {
         setClosable(true);
         setIconifiable(true);
         initComponents();
+        fillBookType();
     }
+//    添加图书
+    private void button1ActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        String bookName=this.textField1.getText();
+        String author=this.textField2.getText();
+        String price=this.textField3.getText();
+        String bookDesc=this.textArea1.getText();
+
+        if(StringUtil.isEmpty(bookName)){
+            JOptionPane.showMessageDialog(null, "图书名称不能为空！");
+            return;
+        }
+
+        if(StringUtil.isEmpty(author)){
+            JOptionPane.showMessageDialog(null, "图书作者不能为空！");
+            return;
+        }
+
+        if(StringUtil.isEmpty(price)){
+            JOptionPane.showMessageDialog(null, "图书价格不能为空！");
+            return;
+        }
+
+        String sex="";
+        if(radioButton1.isSelected()){
+            sex="男";
+        }else if(radioButton2.isSelected()){
+            sex="女";
+        }
+
+        BookType bookType=(BookType) comboBox1.getSelectedItem();
+        int bookTypeId=bookType.getId();
+
+        Book book=new Book(bookName,author, sex, Float.parseFloat(price) , bookTypeId,  bookDesc);
+
+        Connection con=null;
+        try{
+            con=dbUtil.getCon();
+            int addNum=bookDao.add(con, book);
+            if(addNum==1){
+                JOptionPane.showMessageDialog(null, "图书添加成功！");
+                resetValue();
+            }else{
+                JOptionPane.showMessageDialog(null, "图书添加失败！");
+            }
+        }catch(Exception e1){
+            e1.printStackTrace();
+            JOptionPane.showMessageDialog(null, "图书添加失败！");
+        }finally{
+            try {
+                dbUtil.closeCon(con);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+    }
+//    重置输入框
+    private void button2ActionPerformed(ActionEvent e) {
+        // TODO add your code here
+    }
+
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -26,6 +102,10 @@ public class BookAdd extends JInternalFrame {
         label3 = new JLabel();
         radioButton1 = new JRadioButton();
         radioButton2 = new JRadioButton();
+        //将单选框加到组里
+        radioButton1.setSelected(true);
+        buttonGroup.add(radioButton1);
+        buttonGroup.add(radioButton2);
         label4 = new JLabel();
         textField3 = new JTextField();
         label5 = new JLabel();
@@ -72,10 +152,12 @@ public class BookAdd extends JInternalFrame {
         //---- button1 ----
         button1.setText("\u6dfb\u52a0");
         button1.setIcon(new ImageIcon(getClass().getResource("/images/\u6dfb\u52a0.png")));
+        button1.addActionListener(e -> button1ActionPerformed(e));
 
         //---- button2 ----
         button2.setText("\u91cd\u7f6e");
         button2.setIcon(new ImageIcon(getClass().getResource("/images/\u91cd\u7f6e.png")));
+        button2.addActionListener(e -> button2ActionPerformed(e));
 
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
         contentPane.setLayout(contentPaneLayout);
@@ -121,7 +203,7 @@ public class BookAdd extends JInternalFrame {
                                             .addComponent(label4)
                                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                             .addComponent(textField3)))))))
-                    .addContainerGap(56, Short.MAX_VALUE))
+                    .addContainerGap(37, Short.MAX_VALUE))
         );
         contentPaneLayout.setVerticalGroup(
             contentPaneLayout.createParallelGroup()
@@ -151,9 +233,14 @@ public class BookAdd extends JInternalFrame {
                     .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(button1)
                         .addComponent(button2))
-                    .addContainerGap(35, Short.MAX_VALUE))
+                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pack();
+
+        //---- buttonGroup1 ----
+        ButtonGroup buttonGroup1 = new ButtonGroup();
+        buttonGroup1.add(radioButton1);
+        buttonGroup1.add(radioButton2);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
@@ -163,6 +250,7 @@ public class BookAdd extends JInternalFrame {
     private JLabel label2;
     private JTextField textField2;
     private JLabel label3;
+    private final ButtonGroup buttonGroup = new ButtonGroup();
     private JRadioButton radioButton1;
     private JRadioButton radioButton2;
     private JLabel label4;
@@ -175,4 +263,38 @@ public class BookAdd extends JInternalFrame {
     private JButton button1;
     private JButton button2;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
+    /**
+     * 初始化图书类别下拉框
+     */
+    private void fillBookType(){
+        Connection con=null;
+        BookType bookType=null;
+        try{
+            con=dbUtil.getCon();
+            ResultSet rs=bookTypeDao.list(con, new BookType());
+            while(rs.next()){
+                bookType=new BookType();
+                bookType.setId(rs.getInt("id"));
+                bookType.setBookTypeName(rs.getString("bookTypeName"));
+                this.comboBox1.addItem(bookType);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+
+        }
+    }
+    /**
+     * 重置表单
+     */
+    private void resetValue(){
+        this.textField1.setText(""); //图书名称
+        this.textField2.setText(""); //图书作者
+        this.textField3.setText(""); //图书价格
+//        this.manJrb.setSelected(true); //作者性别
+        this.textArea1.setText(""); //图书简介
+        if(this.comboBox1.getItemCount()>0){ //图书类别
+            this.comboBox1.setSelectedIndex(0);
+        }
+    }
 }

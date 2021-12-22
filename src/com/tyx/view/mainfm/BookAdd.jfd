@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq {par t {seq {space :::x, comp button1:::p::p, space :p:102:p, comp button2:::p::p}, seq {space :p:50:p, par l {seq {comp label6:::p::p, space :::p, comp scrollPane1:::::x}, seq {par l:::p {seq {comp label5:::p::p, space :::p, comp comboBox1:::::x}, seq l {comp label1:::p::p, space :::p, comp textField1:::p:132:p}, seq l {comp label3:::p::p, space :::p, comp radioButton1:::p::p, space s:::p, comp radioButton2:::p::p}}, space :p:30:p, par l:::p {seq {comp label2:::p::p, space :::p, comp textField2:::p:91:p}, seq {comp label4:::p::p, space :::p, comp textField3:::::x}}}}}}, space ::56:x}}"
-			"$verticalGroup": "par l {seq l {space :p:26:p, par b {comp label1::b:p::p, comp textField1::b:p::p, comp label2::b:p::p, comp textField2::b:p::p}, space :p:34:p, par b {comp label3::b:p::p, comp radioButton1::b:p::p, comp radioButton2::b:p::p, comp label4::b:p::p, comp textField3::b:p::p}, space :p:35:p, par b {comp label5::b:p::p, comp comboBox1::b:p::p}, space :p:33:p, par b {comp label6::b:p::p, comp scrollPane1::b:p:138:p}, space s:::p, par b {comp button1::b:p::p, comp button2::b:p::p}, space ::35:x}}"
+			"$horizontalGroup": "par l {seq {par t {seq {space :::x, comp button1:::p::p, space :p:102:p, comp button2:::p::p}, seq {space :p:50:p, par l {seq {comp label6:::p::p, space :::p, comp scrollPane1:::::x}, seq {par l:::p {seq {comp label5:::p::p, space :::p, comp comboBox1:::::x}, seq l {comp label1:::p::p, space :::p, comp textField1:::p:132:p}, seq l {comp label3:::p::p, space :::p, comp radioButton1:::p::p, space s:::p, comp radioButton2:::p::p}}, space :p:30:p, par l:::p {seq {comp label2:::p::p, space :::p, comp textField2:::p:91:p}, seq {comp label4:::p::p, space :::p, comp textField3:::::x}}}}}}, space ::37:x}}"
+			"$verticalGroup": "par l {seq l {space :p:26:p, par b {comp label1::b:p::p, comp textField1::b:p::p, comp label2::b:p::p, comp textField2::b:p::p}, space :p:34:p, par b {comp label3::b:p::p, comp radioButton1::b:p::p, comp radioButton2::b:p::p, comp label4::b:p::p, comp textField3::b:p::p}, space :p:35:p, par b {comp label5::b:p::p, comp comboBox1::b:p::p}, space :p:33:p, par b {comp label6::b:p::p, comp scrollPane1::b:p:138:p}, space s:::p, par b {comp button1::b:p::p, comp button2::b:p::p}, space :::x}}"
 		} ) {
 			name: "this"
 			"title": "图书添加"
@@ -30,10 +30,12 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JRadioButton" ) {
 				name: "radioButton1"
 				"text": "男"
+				"$buttonGroup": new FormReference( "buttonGroup1" )
 			} )
 			add( new FormComponent( "javax.swing.JRadioButton" ) {
 				name: "radioButton2"
 				"text": "女"
+				"$buttonGroup": new FormReference( "buttonGroup1" )
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label4"
@@ -63,15 +65,22 @@ new FormModel {
 				name: "button1"
 				"text": "添加"
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/添加.png" )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "button1ActionPerformed", true ) )
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button2"
 				"text": "重置"
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/重置.png" )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "button2ActionPerformed", true ) )
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 6 )
 			"size": new java.awt.Dimension( 395, 370 )
+		} )
+		add( new FormNonVisual( "javax.swing.ButtonGroup" ) {
+			name: "buttonGroup1"
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 391 )
 		} )
 	}
 }
