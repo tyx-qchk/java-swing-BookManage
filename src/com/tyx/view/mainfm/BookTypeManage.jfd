@@ -20,6 +20,7 @@ new FormModel {
 				name: "button1"
 				"text": "查询"
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/17、动态查询条件模板.png" )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "button1ActionPerformed", true ) )
 			} )
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 				name: "scrollPane1"
@@ -53,6 +54,7 @@ new FormModel {
 						add( null )
 						add( null )
 					} )
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "table1MousePressed", true ) )
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
@@ -77,7 +79,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "label4"
-					"text": "描述；"
+					"text": "描述："
 				} )
 				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 					name: "scrollPane2"
@@ -89,11 +91,13 @@ new FormModel {
 					name: "button2"
 					"text": "修改"
 					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/13edit.png" )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "button2ActionPerformed", true ) )
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "button3"
 					"text": "删除"
 					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/删除.png" )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "button3ActionPerformed", true ) )
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {

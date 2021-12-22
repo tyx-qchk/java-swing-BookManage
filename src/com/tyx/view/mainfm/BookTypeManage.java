@@ -4,14 +4,19 @@
 
 package com.tyx.view.mainfm;
 
+import com.tyx.dao.BookDao;
 import com.tyx.dao.BookTypeDao;
 import com.tyx.model.BookType;
 import com.tyx.util.DbUtil;
+import com.tyx.util.StringUtil;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.Vector;
@@ -22,6 +27,7 @@ import java.util.Vector;
 public class BookTypeManage extends JInternalFrame {
     DbUtil dbUtil = new DbUtil();
     BookTypeDao bookTypeDao = new BookTypeDao();
+    BookDao bookDao=new BookDao();
     public BookTypeManage() {
 
         setClosable(true);
@@ -29,27 +35,29 @@ public class BookTypeManage extends JInternalFrame {
         initComponents();
         fillTable(new BookType());
     }
+
     /**
      * 初始化表格数据
+     *
      * @param bookType
      */
-    private void fillTable(BookType bookType){
-        DefaultTableModel dtm=(DefaultTableModel) table1.getModel();
+    private void fillTable(BookType bookType) {
+        DefaultTableModel dtm = (DefaultTableModel) table1.getModel();
         dtm.setRowCount(0); // 设置成0行
-        Connection con=null;
-        try{
-            con=dbUtil.getCon();
-            ResultSet rs = bookTypeDao.list(con,bookType);
-            while(rs.next()){
-                Vector v=new Vector();
+        Connection con = null;
+        try {
+            con = dbUtil.getCon();
+            ResultSet rs = bookTypeDao.list(con, bookType);
+            while (rs.next()) {
+                Vector v = new Vector();
                 v.add(rs.getString("id"));
                 v.add(rs.getString("bookTypeName"));
                 v.add(rs.getString("bookTypeDesc"));
                 dtm.addRow(v);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             try {
                 dbUtil.closeCon(con);
             } catch (Exception e) {
@@ -57,6 +65,110 @@ public class BookTypeManage extends JInternalFrame {
                 e.printStackTrace();
             }
         }
+    }
+
+    //    table行点击事件
+    private void table1MousePressed(MouseEvent e) {
+        // TODO add your code here
+        int row = table1.getSelectedRow();
+        textField2.setText((String) table1.getValueAt(row, 0));
+        textField3.setText((String) table1.getValueAt(row, 1));
+        textArea1.setText((String) table1.getValueAt(row, 2));
+    }
+
+    //    查询功能
+    private void button1ActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        String s_bookTypeName = this.textField1.getText();
+        BookType bookType = new BookType();
+        bookType.setBookTypeName(s_bookTypeName);
+        this.fillTable(bookType);
+    }
+
+    //删除功能
+    private void button3ActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        String id=textField2.getText();
+        if(StringUtil.isEmpty(id)){
+            JOptionPane.showMessageDialog(null, "请选择要删除的记录");
+            return;
+        }
+        int n=JOptionPane.showConfirmDialog(null, "确定要删除该记录吗？");
+        if(n==0){
+            Connection con=null;
+            try{
+                con=dbUtil.getCon();
+                boolean flag=bookDao.existBookByBookTypeId(con, id);
+                if(flag){
+                    JOptionPane.showMessageDialog(null, "当前图书类别下有图书，不能删除此类别");
+                    return;
+                }
+                int deleteNum=bookTypeDao.delete(con, id);
+                if(deleteNum==1){
+                    JOptionPane.showMessageDialog(null, "删除成功");
+                    this.resetValue();
+                    this.fillTable(new BookType());
+                }else{
+                    JOptionPane.showMessageDialog(null, "删除失败");
+                }
+            }catch(Exception e1){
+                e1.printStackTrace();
+                JOptionPane.showMessageDialog(null, "删除失败");
+            }finally{
+                try {
+                    dbUtil.closeCon(con);
+                } catch (Exception e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        }
+    }
+
+    //修改功能
+    private void button2ActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        String id = textField2.getText();
+        String bookTypeName = textField3.getText();
+        String bookTypeDesc = textArea1.getText();
+        if (StringUtil.isEmpty(id)) {
+            JOptionPane.showMessageDialog(null, "请选择要修改的记录");
+            return;
+        }
+        if (StringUtil.isEmpty(bookTypeName)) {
+            JOptionPane.showMessageDialog(null, "图书类别名称不能为空");
+            return;
+        }
+        BookType bookType = new BookType(Integer.parseInt(id), bookTypeName, bookTypeDesc);
+        Connection con = null;
+        try {
+            con = dbUtil.getCon();
+            int modifyNum = bookTypeDao.update(con, bookType);
+            if (modifyNum == 1) {
+                JOptionPane.showMessageDialog(null, "修改成功");
+                this.resetValue();
+                this.fillTable(new BookType());
+            } else {
+                JOptionPane.showMessageDialog(null, "修改失败");
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            JOptionPane.showMessageDialog(null, "修改失败");
+        } finally {
+            try {
+                dbUtil.closeCon(con);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+    }
+
+//    重置表单
+    private void resetValue(){
+        this.textField2.setText("");
+        this.textField3.setText("");
+        this.textArea1.setText("");
     }
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -86,6 +198,7 @@ public class BookTypeManage extends JInternalFrame {
         //---- button1 ----
         button1.setText("\u67e5\u8be2");
         button1.setIcon(new ImageIcon(getClass().getResource("/images/17\u3001\u52a8\u6001\u67e5\u8be2\u6761\u4ef6\u6a21\u677f.png")));
+        button1.addActionListener(e -> button1ActionPerformed(e));
 
         //======== scrollPane1 ========
         {
@@ -99,7 +212,20 @@ public class BookTypeManage extends JInternalFrame {
                 new String[] {
                     "\u7f16\u53f7", "\u56fe\u4e66\u7c7b\u522b", "\u63cf\u8ff0"
                 }
-            ));
+            ){ //设置表格不可编辑
+                boolean[] columnEditables = new boolean[] {
+                        false, false, false
+                };
+                public boolean isCellEditable(int row, int column) {
+                    return columnEditables[column];
+                }
+            });
+            table1.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    table1MousePressed(e);
+                }
+            });
             scrollPane1.setViewportView(table1);
         }
 
@@ -114,7 +240,7 @@ public class BookTypeManage extends JInternalFrame {
             label3.setText("\u56fe\u4e66\u7c7b\u522b\uff1a");
 
             //---- label4 ----
-            label4.setText("\u63cf\u8ff0\uff1b");
+            label4.setText("\u63cf\u8ff0\uff1a");
 
             //======== scrollPane2 ========
             {
@@ -124,10 +250,12 @@ public class BookTypeManage extends JInternalFrame {
             //---- button2 ----
             button2.setText("\u4fee\u6539");
             button2.setIcon(new ImageIcon(getClass().getResource("/images/13edit.png")));
+            button2.addActionListener(e -> button2ActionPerformed(e));
 
             //---- button3 ----
             button3.setText("\u5220\u9664");
             button3.setIcon(new ImageIcon(getClass().getResource("/images/\u5220\u9664.png")));
+            button3.addActionListener(e -> button3ActionPerformed(e));
 
             GroupLayout panel1Layout = new GroupLayout(panel1);
             panel1.setLayout(panel1Layout);
@@ -208,7 +336,6 @@ public class BookTypeManage extends JInternalFrame {
                     .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pack();
-
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
