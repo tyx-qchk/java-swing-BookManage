@@ -5,7 +5,7 @@ new FormModel {
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 			"$horizontalGroup": "par l {space :0:755:x}"
-			"$verticalGroup": "par l {space :0:360:x}"
+			"$verticalGroup": "par l {space :0:359:x}"
 		} ) {
 			name: "this"
 			"title": "图书管理系统"
@@ -68,9 +68,28 @@ new FormModel {
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menu3ActionPerformed", true ) )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "menuItem1"
-						"text": "借阅管理"
+						"text": "借书/还书"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/书架.png" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuItem1ActionPerformed", true ) )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuItem1ActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "menuItem3"
+						"text": "借书证注册"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/工会成员注册.png" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuItem3ActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "menuItem4"
+						"text": "借阅管理"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/2_管理.png" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuItem4ActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "menuItem5"
+						"text": "学生管理"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/工会成员注册.png" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuItem5ActionPerformed", true ) )
 					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
@@ -84,12 +103,6 @@ new FormModel {
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/退出.png" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuItem2ActionPerformed", true ) )
 					} )
-				} )
-				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
-					name: "menu2"
-					"text": "关于"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/关于我们.png" )
-					"font": new java.awt.Font( "Dialog", 0, 12 )
 				} )
 			}
 		}, new FormLayoutConstraints( null ) {

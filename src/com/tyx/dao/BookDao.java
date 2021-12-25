@@ -7,6 +7,7 @@ import com.tyx.util.StringUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * 图书Dao类
@@ -79,7 +80,7 @@ public class BookDao {
 	 * @throws Exception
 	 */
 	public int update(Connection con,Book book)throws Exception{
-		String sql="update t_book set bookName=?,author=?,sex=?,price=?,bookDesc=?,bookTypeId=? where id=?";
+		String sql="update t_book set bookName=?,author=?,sex=?,price=?,bookDesc=?,bookTypeId=?,borrow=? where id=?";
 		PreparedStatement pstmt=con.prepareStatement(sql);
 		pstmt.setString(1, book.getBookName());
 		pstmt.setString(2, book.getAuthor());
@@ -87,10 +88,17 @@ public class BookDao {
 		pstmt.setFloat(4, book.getPrice());
 		pstmt.setString(5, book.getBookDesc());
 		pstmt.setInt(6, book.getBookTypeId());
-		pstmt.setInt(7, book.getId());
+		pstmt.setInt(7,book.getBorrow());
+		pstmt.setInt(8, book.getId());
 		return pstmt.executeUpdate();
 	}
-	
+	public int updateBorrow(Connection con,int id,int borrow) throws SQLException {
+		String sql="update t_book set borrow=? where id=?";
+		PreparedStatement pstmt=con.prepareStatement(sql);
+		pstmt.setInt(1, borrow);
+		pstmt.setInt(2, id);
+		return pstmt.executeUpdate();
+	}
 	/**
 	 * 指定图书类别下是否存在图书
 	 * @param con

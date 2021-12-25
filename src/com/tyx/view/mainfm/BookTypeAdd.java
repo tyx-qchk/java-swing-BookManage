@@ -27,6 +27,7 @@ public class BookTypeAdd extends JInternalFrame {
         setBounds(100, 100, 450, 300);
         initComponents();
     }
+
 //    添加
     private void button1ActionPerformed(ActionEvent e) {
         // TODO add your code here

@@ -1,10 +1,10 @@
 /*
- * Created by JFormDesigner on Tue Dec 21 14:35:42 CST 2021
+ * Created by JFormDesigner on Fri Dec 24 15:04:18 CST 2021
  */
 
 package com.tyx.view.borrow;
 
-import com.tyx.dao.RecordDao;
+import com.tyx.dao.StudentDao;
 import com.tyx.util.DbUtil;
 
 import javax.swing.*;
@@ -18,16 +18,16 @@ import java.util.Vector;
 /**
  * @author Brainrain
  */
-public class BorrowManage extends JInternalFrame {
-    private DbUtil dbUtil = new DbUtil();
-    private RecordDao recordDao = new RecordDao();
-    public BorrowManage() {
+public class StudentManage extends JInternalFrame {
+    private DbUtil dbUtil =new DbUtil();
+    private StudentDao studentDao = new StudentDao();
+    public StudentManage() {
         setClosable(true);
         setIconifiable(true);
         initComponents();
         fillTable("");
     }
-//    查询
+//    查询学生
     private void button1ActionPerformed(ActionEvent e) {
         // TODO add your code here
         String id = textField1.getText().trim();
@@ -43,11 +43,11 @@ public class BorrowManage extends JInternalFrame {
         table1 = new JTable();
 
         //======== this ========
-        setTitle("\u501f\u9605\u7ba1\u7406");
+        setTitle("\u5b66\u751f\u7ba1\u7406");
         Container contentPane = getContentPane();
 
         //---- label1 ----
-        label1.setText("\u501f\u9605\u4eba\u7f16\u53f7\uff1a");
+        label1.setText("\u5b66\u53f7\u67e5\u8be2:");
 
         //---- button1 ----
         button1.setText("\u67e5\u8be2");
@@ -60,15 +60,15 @@ public class BorrowManage extends JInternalFrame {
             //---- table1 ----
             table1.setModel(new DefaultTableModel(
                 new Object[][] {
-                    {null, null, null, null, null},
-                    {null, null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
                 },
                 new String[] {
-                    "\u501f\u4e66\u4eba\u7f16\u53f7", "\u501f\u4e66\u4eba\u59d3\u540d", "\u4e66\u7c4d\u540d\u79f0", "\u501f\u4e66\u65f6\u95f4", "\u5f52\u8fd8\u65f6\u95f4"
+                    "\u5b66\u53f7", "\u59d3\u540d", "\u7535\u8bdd", "\u501f\u9605\u7684\u4e66\u7c4d"
                 }
             ){ //设置表格不可编辑
                 boolean[] columnEditables = new boolean[] {
-                        false, false, false,false,false
+                        false, false, false,false
                 };
                 public boolean isCellEditable(int row, int column) {
                     return columnEditables[column];
@@ -81,17 +81,18 @@ public class BorrowManage extends JInternalFrame {
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
             contentPaneLayout.createParallelGroup()
-                .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                .addGroup(contentPaneLayout.createSequentialGroup()
                     .addGap(53, 53, 53)
                     .addComponent(label1)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(textField1, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textField1, GroupLayout.PREFERRED_SIZE, 224, GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
                     .addComponent(button1)
-                    .addContainerGap(129, Short.MAX_VALUE))
-                .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                    .addContainerGap(90, Short.MAX_VALUE))
+                .addGroup(contentPaneLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE))
+                    .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+                    .addContainerGap())
         );
         contentPaneLayout.setVerticalGroup(
             contentPaneLayout.createParallelGroup()
@@ -101,9 +102,9 @@ public class BorrowManage extends JInternalFrame {
                         .addComponent(label1)
                         .addComponent(textField1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(button1))
-                    .addGap(18, 18, 18)
-                    .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
-                    .addContainerGap())
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 252, GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(9, Short.MAX_VALUE))
         );
         pack();
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
@@ -126,14 +127,13 @@ public class BorrowManage extends JInternalFrame {
         Connection con=null;
         try{
             con=dbUtil.getCon();
-            ResultSet rs=recordDao.list(con, id);
+            ResultSet rs=studentDao.list2(con, id);
             while(rs.next()){
                 Vector v=new Vector();
                 v.add(rs.getString("id"));
                 v.add(rs.getString("userName"));
+                v.add(rs.getString("phone"));
                 v.add(rs.getString("bookName"));
-                v.add(rs.getString("startTime"));
-                v.add(rs.getString("endTime"));
                 dtm.addRow(v);
             }
         }catch(Exception e){

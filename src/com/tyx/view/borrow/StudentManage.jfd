@@ -4,14 +4,14 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq t {space :p:53:p, comp label1:::p::p, space :::p, comp textField1:::p:191:p, space s:::p, comp button1:::p::p, space ::129:x}, seq t {space :::p, comp scrollPane1::::567:x}}"
-			"$verticalGroup": "par l {seq l {space :::p, par b {comp label1::b:p::p, comp textField1::b:p::p, comp button1::b:p::p}, space s:::p, comp scrollPane1::::318:x, space :::p}}"
+			"$horizontalGroup": "par l {seq {space :p:53:p, comp label1:::p::p, space :::p, comp textField1:::p:224:p, space s:::p, comp button1:::p::p, space ::90:x}, seq l {space :::p, comp scrollPane1::::530:x, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, par b {comp label1::b:p::p, comp textField1::b:p::p, comp button1::b:p::p}, space u:::p, comp scrollPane1:::p:252:p, space ::9:x}}"
 		} ) {
 			name: "this"
-			"title": "借阅管理"
+			"title": "学生管理"
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label1"
-				"text": "借阅人编号："
+				"text": "学号查询:"
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "textField1"
@@ -32,35 +32,29 @@ new FormModel {
 							add( null )
 							add( null )
 							add( null )
-							add( null )
 						} )
 						add( new java.util.Vector {
 							add( null )
 							add( null )
 							add( null )
 							add( null )
-							add( null )
 						} )
 					}, new java.util.Vector {
-						add( "借书人编号" )
-						add( "借书人姓名" )
-						add( "书籍名称" )
-						add( "借书时间" )
-						add( "归还时间" )
+						add( "学号" )
+						add( "姓名" )
+						add( "电话" )
+						add( "借阅的书籍" )
 					}, new java.util.Vector {
-						add( null )
-						add( null )
-						add( null )
-						add( null )
-						add( null )
-					}, new java.util.Vector {
-						add( null )
 						add( null )
 						add( null )
 						add( null )
 						add( null )
 					}, new java.util.Vector {
 						add( null )
+						add( null )
+						add( null )
+						add( null )
+					}, new java.util.Vector {
 						add( null )
 						add( null )
 						add( null )
@@ -70,7 +64,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 460, 335 )
+			"size": new java.awt.Dimension( 435, 280 )
 		} )
 	}
 }

@@ -180,6 +180,7 @@ public class BookTypeManage extends JInternalFrame {
         panel1 = new JPanel();
         label2 = new JLabel();
         textField2 = new JTextField();
+        textField2.setEnabled(false); //编号不可修改
         label3 = new JLabel();
         textField3 = new JTextField();
         label4 = new JLabel();

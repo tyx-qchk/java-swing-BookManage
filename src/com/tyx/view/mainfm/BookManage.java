@@ -5,13 +5,19 @@
 package com.tyx.view.mainfm;
 
 import com.tyx.dao.BookDao;
+import com.tyx.dao.BookTypeDao;
 import com.tyx.model.Book;
+import com.tyx.model.BookType;
 import com.tyx.util.DbUtil;
+import com.tyx.util.StringUtil;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.Vector;
@@ -22,12 +28,158 @@ import java.util.Vector;
 public class BookManage extends JInternalFrame {
     private DbUtil dbUtil=new DbUtil();
     private BookDao bookDao=new BookDao();
+    private BookTypeDao bookTypeDao = new BookTypeDao();
+    private String borrow = "在馆";
     public BookManage() {
         setClosable(true);
         setIconifiable(true);
         setTitle("图书管理");
         initComponents();
+        fillBookType("search");
+        fillBookType("modify");
         fillTable(new Book());
+    }
+//    图书查询功能
+    private void button1ActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        String bookName=this.textField1.getText();
+        String author=this.textField2.getText();
+        BookType bookType=(BookType) this.comboBox1.getSelectedItem();
+        int bookTypeId=bookType.getId();
+
+        Book book=new Book(bookName,author,bookTypeId);
+        this.fillTable(book);
+    }
+//    表格行选中
+    private void table1MousePressed(MouseEvent e) {
+        // TODO add your code here
+        int row=this.table1.getSelectedRow();
+        this.textField3.setText((String)table1.getValueAt(row, 0)); //id
+        this.textField4.setText((String)table1.getValueAt(row, 1)); //图书名
+        this.textField6.setText((String)table1.getValueAt(row, 2)); //作者
+        String sex=(String)table1.getValueAt(row, 3); // 性别
+        if("男".equals(sex)){
+            this.radioButton1.setSelected(true);
+        }else if("女".equals(sex)){
+            this.radioButton2.setSelected(true);
+        }
+        this.textField5.setText((Float)table1.getValueAt(row, 4)+""); //价格
+        this.textArea1.setText((String)table1.getValueAt(row, 7)); //简介
+        String bookTypeName=(String)this.table1.getValueAt(row, 5);
+        int n=this.comboBox2.getItemCount();
+        for(int i=0;i<n;i++){
+            BookType item=(BookType)this.comboBox2.getItemAt(i);
+            if(item.getBookTypeName().equals(bookTypeName)){
+                this.comboBox2.setSelectedIndex(i);
+            }
+        }
+        borrow = (String) table1.getValueAt(row,6);
+    }
+//  修改功能
+    private void button2ActionPerformed(ActionEvent e) {
+        if (borrow.equals("已借阅")){
+            JOptionPane.showMessageDialog(null, "图书已借出，请等图书归还再修改！");
+            return;
+        }
+        // TODO add your code here
+        String id=this.textField3.getText();
+        if(StringUtil.isEmpty(id)){
+            JOptionPane.showMessageDialog(null, "请选择要修改的记录");
+            return;
+        }
+
+        String bookName=this.textField4.getText();
+        String author=this.textField6.getText();
+        String price=this.textField5.getText();
+        String bookDesc=this.textArea1.getText();
+
+        if(StringUtil.isEmpty(bookName)){
+            JOptionPane.showMessageDialog(null, "图书名称不能为空！");
+            return;
+        }
+
+        if(StringUtil.isEmpty(author)){
+            JOptionPane.showMessageDialog(null, "图书作者不能为空！");
+            return;
+        }
+
+        if(StringUtil.isEmpty(price)){
+            JOptionPane.showMessageDialog(null, "图书价格不能为空！");
+            return;
+        }
+
+        String sex="";
+        if(radioButton1.isSelected()){
+            sex="男";
+        }else if(radioButton2.isSelected()){
+            sex="女";
+        }
+
+        BookType bookType=(BookType) comboBox2.getSelectedItem();
+        int bookTypeId=bookType.getId();
+
+        Book book=new Book(Integer.parseInt(id),  bookName, author, sex, Float.parseFloat(price),  bookTypeId,  bookDesc);
+
+        Connection con=null;
+        try{
+            con=dbUtil.getCon();
+            int addNum=bookDao.update(con, book);
+            if(addNum==1){
+                JOptionPane.showMessageDialog(null, "图书修改成功！");
+                resetValue();
+                this.fillTable(new Book());
+            }else{
+                JOptionPane.showMessageDialog(null, "图书修改失败！");
+            }
+        }catch(Exception e1){
+            e1.printStackTrace();
+            JOptionPane.showMessageDialog(null, "图书修改失败！");
+        }finally{
+            try {
+                dbUtil.closeCon(con);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+    }
+//  删除功能
+    private void button3ActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        if (borrow.equals("已借阅")){
+            JOptionPane.showMessageDialog(null, "图书已借出，请等图书归还再删除！");
+            return;
+        }
+        String id=textField3.getText();
+        if(StringUtil.isEmpty(id)){
+            JOptionPane.showMessageDialog(null, "请选择要删除的记录");
+            return;
+        }
+        int n=JOptionPane.showConfirmDialog(null, "确定要删除该记录吗？");
+        if(n==0){
+            Connection con=null;
+            try{
+                con=dbUtil.getCon();
+                int deleteNum=bookDao.delete(con, id);
+                if(deleteNum==1){
+                    JOptionPane.showMessageDialog(null, "删除成功");
+                    this.resetValue();
+                    this.fillTable(new Book());
+                }else{
+                    JOptionPane.showMessageDialog(null, "删除失败");
+                }
+            }catch(Exception e1){
+                e1.printStackTrace();
+                JOptionPane.showMessageDialog(null, "删除失败");
+            }finally{
+                try {
+                    dbUtil.closeCon(con);
+                } catch (Exception e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        }
     }
 
     private void initComponents() {
@@ -81,6 +233,7 @@ public class BookManage extends JInternalFrame {
             //---- button1 ----
             button1.setText("\u67e5\u8be2");
             button1.setIcon(new ImageIcon(getClass().getResource("/images/17\u3001\u52a8\u6001\u67e5\u8be2\u6761\u4ef6\u6a21\u677f.png")));
+            button1.addActionListener(e -> button1ActionPerformed(e));
 
             GroupLayout panel1Layout = new GroupLayout(panel1);
             panel1.setLayout(panel1Layout);
@@ -129,7 +282,20 @@ public class BookManage extends JInternalFrame {
                 new String[] {
                     "\u56fe\u4e66\u7f16\u53f7", "\u56fe\u4e66\u540d\u79f0", "\u56fe\u4e66\u4f5c\u8005", "\u4f5c\u8005\u6027\u522b", "\u56fe\u4e66\u4ef7\u683c", "\u56fe\u4e66\u7c7b\u522b", "\u72b6\u6001", "\u56fe\u4e66\u63cf\u8ff0"
                 }
-            ));
+            ){ //设置表格不可编辑
+                boolean[] columnEditables = new boolean[] {
+                        false, false, false,false,false, false, false,false
+                };
+                public boolean isCellEditable(int row, int column) {
+                    return columnEditables[column];
+                }
+            });
+            table1.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    table1MousePressed(e);
+                }
+            });
             scrollPane1.setViewportView(table1);
         }
 
@@ -172,10 +338,12 @@ public class BookManage extends JInternalFrame {
             //---- button2 ----
             button2.setText("\u4fee\u6539");
             button2.setIcon(new ImageIcon(getClass().getResource("/images/13edit.png")));
+            button2.addActionListener(e -> button2ActionPerformed(e));
 
             //---- button3 ----
             button3.setText("\u5220\u9664");
             button3.setIcon(new ImageIcon(getClass().getResource("/images/\u5220\u9664.png")));
+            button3.addActionListener(e -> button3ActionPerformed(e));
 
             GroupLayout panel2Layout = new GroupLayout(panel2);
             panel2.setLayout(panel2Layout);
@@ -185,7 +353,7 @@ public class BookManage extends JInternalFrame {
                         .addContainerGap()
                         .addGroup(panel2Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                             .addGroup(panel2Layout.createSequentialGroup()
-                                .addGap(0, 543, Short.MAX_VALUE)
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(button2, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
                                 .addGap(46, 46, 46)
                                 .addComponent(button3, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE))
@@ -214,7 +382,7 @@ public class BookManage extends JInternalFrame {
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(panel2Layout.createParallelGroup()
                                     .addGroup(panel2Layout.createSequentialGroup()
-                                        .addGap(0, 6, Short.MAX_VALUE)
+                                        .addGap(0, 0, Short.MAX_VALUE)
                                         .addComponent(label6)
                                         .addGap(18, 18, 18)
                                         .addComponent(radioButton1)
@@ -255,7 +423,7 @@ public class BookManage extends JInternalFrame {
                         .addGroup(panel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                             .addComponent(button3)
                             .addComponent(button2))
-                        .addContainerGap(10, Short.MAX_VALUE))
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
         }
 
@@ -317,6 +485,43 @@ public class BookManage extends JInternalFrame {
     private JButton button3;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
     /**
+     * 初始化下拉框
+     * @param type 下拉框类型
+     */
+    private void fillBookType(String type){
+        Connection con=null;
+        BookType bookType=null;
+        try{
+            con=dbUtil.getCon();
+            ResultSet rs=bookTypeDao.list(con, new BookType());
+            if("search".equals(type)){
+                bookType=new BookType();
+                bookType.setBookTypeName("请选择...");
+                bookType.setId(-1);
+                this.comboBox1.addItem(bookType); //搜索选择
+            }
+            while(rs.next()){
+                bookType=new BookType();
+                bookType.setBookTypeName(rs.getString("bookTypeName"));
+                bookType.setId(rs.getInt("id"));
+                if("search".equals(type)){
+                    this.comboBox1.addItem(bookType); //搜索选择
+                }else if("modify".equals(type)){
+                    this.comboBox2.addItem(bookType); //修改选择
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                dbUtil.closeCon(con);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+    /**
      * 初始化表格数据
      * @param book
      */
@@ -335,8 +540,13 @@ public class BookManage extends JInternalFrame {
                 v.add(rs.getString("sex"));
                 v.add(rs.getFloat("price"));
                 v.add(rs.getString("bookTypeName"));
+                int isBorrow = rs.getInt("borrow");
+                if (isBorrow!=0){
+                    v.add("已借阅");
+                } else {
+                    v.add("在馆");
+                }
                 v.add(rs.getString("bookDesc"));
-
                 dtm.addRow(v);
             }
         }catch(Exception e){
@@ -348,6 +558,20 @@ public class BookManage extends JInternalFrame {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+        }
+    }
+    /**
+     * 重置表单
+     */
+    private void resetValue(){
+        this.textField3.setText(""); //图书id
+        this.textField4.setText(""); //图书名称
+        this.textField5.setText(""); //图书价格
+        this.textField6.setText(""); //图书作者
+        this.radioButton1.setSelected(true); //性别
+        this.textArea1.setText(""); // 简介
+        if(this.comboBox2.getItemCount()>0){ //选择框
+            this.comboBox2.setSelectedIndex(0);
         }
     }
 }

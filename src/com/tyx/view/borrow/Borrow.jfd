@@ -1,0 +1,131 @@
+JFDML JFormDesigner: "6.0.6.2.195" Java: "11.0.5" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :::p, par l {comp panel1::::861:x, comp scrollPane1::::861:x, comp panel2::l:::x}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp panel1:::p::p, space u:::p, comp scrollPane1:::p:172:p, space u:::p, comp panel2:::::x, space :::p}}"
+		} ) {
+			name: "this"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, comp label1:::p::p, space :::p, comp textField1:::p:174:p, space :::p, comp label2:::p::p, space :::p, comp textField2:::p:143:p, space :::p, comp label3:::p::p, space :::p, comp comboBox1:::p:185:p, space :::p, comp button1:::p::p, space :::x}}"
+				"$verticalGroup": "par l {seq l {space :::p, par b {comp label1::b:p::p, comp textField1::b:p::p, comp label2::b:p::p, comp textField2::b:p::p, comp label3::b:p::p, comp comboBox1::b:p::p, comp button1::b:p::p}, space ::15:x}}"
+			} ) {
+				name: "panel1"
+				"border": new javax.swing.border.TitledBorder( "搜索条件" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label1"
+					"text": "图书名称："
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "textField1"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label2"
+					"text": "图书作者："
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "textField2"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label3"
+					"text": "图书类别："
+				} )
+				add( new FormComponent( "javax.swing.JComboBox" ) {
+					name: "comboBox1"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "button1"
+					"text": "查询"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/17、动态查询条件模板.png" )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "button1ActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane1"
+				add( new FormComponent( "javax.swing.JTable" ) {
+					name: "table1"
+					"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector {
+						add( new java.util.Vector {
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+						} )
+					}, new java.util.Vector {
+						add( "图书编号" )
+						add( "图书名称" )
+						add( "图书作者" )
+						add( "作者性别" )
+						add( "图书价格" )
+						add( "图书类别" )
+						add( "状态" )
+						add( "图书描述" )
+					}, new java.util.Vector {
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+					}, new java.util.Vector {
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+					}, new java.util.Vector {
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+					} )
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "table1MousePressed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, par l {seq {comp button2:::p:416:p, space :::p, comp button3::::417:x}, seq {comp label4:::p::p, space :::p, comp textField3::::749:x}}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par b {comp label4::b:p::p, comp textField3::b:p::p}, space ::8:x, par b {comp button2::b:p::p, comp button3::b:p::p}, space :::p}}"
+			} ) {
+				name: "panel2"
+				"border": new javax.swing.border.TitledBorder( "借书操作" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label4"
+					"text": "借书人学号："
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "textField3"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "button2"
+					"text": "借书"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/13edit.png" )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "button2ActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "button3"
+					"text": "归还"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/图书归还.png" )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "button3ActionPerformed", true ) )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 700, 346 )
+		} )
+	}
+}

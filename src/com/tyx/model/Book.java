@@ -14,6 +14,7 @@ public class Book {
 	private Float price; // 图书价格
 	private Integer bookTypeId; // 图书类别Id
 	private String bookTypeName; // 图书类名名称
+	private int borrow;
 	private String bookDesc; // 备注
 	
 	
@@ -22,11 +23,9 @@ public class Book {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	
+
+
 	public Book(String bookName, String author, String sex, Float price, Integer bookTypeId, String bookDesc) {
-		super();
 		this.bookName = bookName;
 		this.author = author;
 		this.sex = sex;
@@ -35,10 +34,19 @@ public class Book {
 		this.bookDesc = bookDesc;
 	}
 
-	
+	public Book(String bookName, String author, String sex, Float price, Integer bookTypeId, int borrow, String bookDesc) {
+		super();
+		this.bookName = bookName;
+		this.author = author;
+		this.sex = sex;
+		this.price = price;
+		this.bookTypeId = bookTypeId;
+		this.borrow = borrow;
+		this.bookDesc = bookDesc;
+	}
 
 
-	public Book(int id, String bookName, String author, String sex, Float price, Integer bookTypeId, String bookDesc) {
+	public Book(int id, String bookName, String author, String sex, Float price, Integer bookTypeId,  String bookDesc) {
 		super();
 		this.id = id;
 		this.bookName = bookName;
@@ -46,6 +54,18 @@ public class Book {
 		this.sex = sex;
 		this.price = price;
 		this.bookTypeId = bookTypeId;
+		this.bookDesc = bookDesc;
+	}
+
+	public Book(int id, String bookName, String author, String sex, Float price, Integer bookTypeId, int borrow, String bookDesc) {
+		super();
+		this.id = id;
+		this.bookName = bookName;
+		this.author = author;
+		this.sex = sex;
+		this.price = price;
+		this.bookTypeId = bookTypeId;
+		this.borrow = borrow;
 		this.bookDesc = bookDesc;
 	}
 
@@ -59,6 +79,13 @@ public class Book {
 	}
 
 
+	public int getBorrow() {
+		return borrow;
+	}
+
+	public void setBorrow(int borrow) {
+		this.borrow = borrow;
+	}
 
 	public int getId() {
 		return id;
